@@ -52,8 +52,8 @@ are printed. The following options are supported:
 
 - Plus sign (`{+}`): Prints a leading + for positive numeric types.
 - Width (`{x}`): left pads the output with spaces to be `x` characters
-  wide. When used on floats, it left pads the output so the __left side
-  of the decimal point__ is `x` characters wide (I chose this because I
+  wide. When used on floats, it left pads the output so the _left side
+  of the decimal point_ is `x` characters wide (I chose this because I
   think it makes `{x.y}` more intuitive). If the output is already wider
   than `x` characters, it doesn't do anything.
 - Width with zero padding (`{0x}`): as above, but pads with zeroes
