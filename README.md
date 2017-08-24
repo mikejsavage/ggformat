@@ -25,6 +25,9 @@ bool ggprint_to_file( FILE * file, const char * fmt, ... );
 bool ggprint( const char * fmt, ... );
 ```
 
+In short, `ggformat` replaces s(n)printf, `ggprint_to_file` replaces
+fprintf, and `ggprint` replaces printf.
+
 `ggformat` writes at most `len` bytes to `buf`, and that always includes
 a null terminator. Its return value is the number of bytes that would
 have been written if `buf` were large enough, _not including the null
@@ -34,8 +37,11 @@ terminator_, and can be larger than `len` (just like sprintf).
 standard output. Both return `true` on success, or `false` if the write
 fails.
 
-In short, `ggformat` replaces s(n)printf, `ggprint_to_file` replaces
-fprintf, and `ggprint` replaces printf.
+`ggformat` does not allocate memory, the other functions allocate if you
+print lots of data. All functions abort if you mess up the formatting
+string or don't pass the right number of arguments. You should not pass
+user defined strings as format strings, and I believe it's more helpful
+to fail hard on programmer typos.
 	
 Basic usage looks like this:
 
@@ -147,17 +153,8 @@ ggformat uses sprintf under the hood. It compiles slightly slower than
 sprintf and quite a bit faster than tinyformat. Runtime performance is
 not important, but ggformat shouldn't be much slower than sprintf.
 
-`ggformat` does not allocate memory. `ggprint_to_file` and `ggprint`
-will allocate for strings larger than 4k. Currently they call
-malloc/free but that's very easy to change if you'd rather use your own
-allocators.
-
-ggformat is somewhat strict about validating format strings and aborts
-when it does find an error. You should not pass user defined strings as
-format strings, and I believe it's more helpful to fail hard on
-programmer typos. If you don't like that then it's easy enough to
-change.
-
 In general ggformat is short enough that you can easily modify it to fit
 your needs, and will be updated infrequently enough that doing so isn't
-a huge pain.
+a huge pain. For example, it's very easy to replace malloc/free with
+your own allocators, and if you don't like aborting on errors it's
+pretty easy to change that too.
