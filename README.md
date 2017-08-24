@@ -19,8 +19,6 @@ streams under the hood and also bloats compile times.
 
 ## Usage
 
-The formatting API looks like this:
-
 ```
 size_t ggformat( char * buf, size_t len, const char * fmt, ... );
 bool ggprint_to_file( FILE * file, const char * fmt, ... );
@@ -31,6 +29,7 @@ bool ggprint( const char * fmt, ... );
 a null terminator. Its return value is the number of bytes that would
 have been written if `buf` were large enough, _not including the null
 terminator_, and can be larger than `len` (just like sprintf).
+
 `ggprint_to_file` does what you would expect, and `ggprint` writes to
 standard output. Both return `true` on success, or `false` if the write
 fails.
