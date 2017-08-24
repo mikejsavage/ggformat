@@ -5,7 +5,8 @@ supports user defined types without blowing up your compile times. It is
 meant to be used as a replacement for printf and friends.
 
 ggformat requires C++11, and supports VS2015, GCC and clang out of the
-box.
+box. It should also work with VS2013 and VS2017 but they haven't been
+tested.
 
 [tinyformat]: https://github.com/c42f/tinyformat
 
@@ -30,7 +31,7 @@ bool ggprint( const char * fmt, ... );
 null terminator. Its return value is the number of bytes that would have
 been written if `buf` were large enough, and can be larger than `len`
 (just like sprintf). `ggprint_to_file` does what you would expect, and
-`ggprint` writes to standard output. Both return `true` on success, and
+`ggprint` writes to standard output. Both return `true` on success, or
 `false` if the file could not be written to.
 	
 Basic usage looks like this:
@@ -69,8 +70,7 @@ are printed. The following options are supported:
 These can all be combined, but should be kept in the order they were
 just listed in.
 
-If you really want to print a { or }, use {{ and }} in the format
-string.
+If you want to print a literal { or }, use {{ and }}.
 
 
 ## User defined types
@@ -148,11 +148,11 @@ will allocate for strings larger than 4k. Currently they call `malloc`
 and `free` but that's very easy to change if you'd rather use your own
 allocators.
 
-ggformat is not especially strict about validating format strings and
-aborts when it does find an error. You should not be passing user
-defined strings as format strings, and I believe it's more helpful to
-fail hard on programmer typos. If you don't like that then it's easy
-enough to change.
+ggformat is somewhat strict about validating format strings and aborts
+when it does find an error. You should not be passing user defined
+strings as format strings, and I believe it's more helpful to fail hard
+on programmer typos. If you don't like that then it's easy enough to
+change.
 
 In general ggformat is short enough that you can easily modify it to fit
 your needs, and will be updated infrequently enough that doing so isn't
