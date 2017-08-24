@@ -91,25 +91,25 @@ void format( FormatBuffer * fb, const char * x, const FormatOpts & opts = Format
 	} while( 0 )
 
 #if defined( _MSC_VER )
-#  define COMPILER_MSVC 1
+#  define GGFORMAT_COMPILER_MSVC 1
 #elif defined( __clang__ )
-#  define COMPILER_CLANG 1
+#  define GGFORMAT_COMPILER_CLANG 1
 #elif defined( __GNUC__ )
-#  define COMPILER_GCC 1
+#  define GGFORMAT_COMPILER_GCC 1
 #else
 #  error new compiler
 #endif
 
 // this is optional but helps compile times
-#if COMPILER_MSVC
+#if GGFORMAT_COMPILER_MSVC
 #  define PRAGMA_DISABLE_OPTIMISATIONS() __pragma( optimize( "", off ) )
 #  define PRAGMA_ENABLE_OPTIMISATIONS() __pragma( optimize( "", on ) )
-#elif COMPILER_GCC
+#elif GGFORMAT_COMPILER_GCC
 #  define PRAGMA_DISABLE_OPTIMISATIONS() \
         _Pragma( "GCC push_options" ) \
         _Pragma( "GCC optimize (\"O0\")" )
 #  define PRAGMA_ENABLE_OPTIMISATIONS() _Pragma( "GCC pop_options" )
-#elif COMPILER_CLANG
+#elif GGFORMAT_COMPILER_CLANG
 #  define PRAGMA_DISABLE_OPTIMISATIONS() _Pragma( "clang optimize off" )
 #  define PRAGMA_ENABLE_OPTIMISATIONS() _Pragma( "clang optimize on" )
 #else
