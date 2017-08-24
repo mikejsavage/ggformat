@@ -10,7 +10,7 @@ them.
 
 [tinyformat]: https://github.com/c42f/tinyformat
 
-I built ggformat because the existing string formatting options for C++
+I wrote ggformat because the existing string formatting options for C++
 either do not support user defined types or bloat compile times too
 much. printf doesn't support user defined types. Streams bloat compile
 times and IO manipulators are unreadable. [tinyformat](tinyformat) uses
@@ -27,12 +27,16 @@ bool ggprint_to_file( FILE * file, const char * fmt, ... );
 bool ggprint( const char * fmt, ... );
 ```
 
-`ggformat` writes at most `len` bytes to `buf`, and always includes a
-null terminator. Its return value is the number of bytes that would have
-been written if `buf` were large enough, and can be larger than `len`
-(just like sprintf). `ggprint_to_file` does what you would expect, and
-`ggprint` writes to standard output. Both return `true` on success, or
-`false` if the file could not be written to.
+`ggformat` writes at most `len` bytes to `buf`, and that always includes
+a null terminator. Its return value is the number of bytes that would
+have been written if `buf` were large enough, _not including the null
+terminator_, and can be larger than `len` (just like sprintf).
+`ggprint_to_file` does what you would expect, and `ggprint` writes to
+standard output. Both return `true` on success, or `false` if the write
+fails.
+
+In short, `ggformat` replaces s(n)printf, `ggprint_to_file` replaces
+fprintf, and `ggprint` replaces printf.
 	
 Basic usage looks like this:
 
@@ -44,6 +48,9 @@ int main() {
 	return 0;
 }
 ```
+
+and you can see more examples in basic_examples.cc and
+string_examples.cc.
 
 
 ## Format options
@@ -63,9 +70,7 @@ are printed. The following options are supported:
   spaces/zeroes on the right.
 - Precision (`{.x}`): specifies the number of digits that appear after
   the decimal point when printing floats.
-- Number format (`{x}` or `{b}`): specifies that the value should be
-  printed as hexadecimal/binary. Numbers are printed as decimal if no
-  number format is given.
+- Number format (`{x}` or `{b}`): prints numbers in hexadecimal/binary.
 
 These can all be combined, but should be kept in the order they were
 just listed in.
@@ -78,7 +83,7 @@ If you want to print a literal { or }, use {{ and }}.
 If you want to print your own types with ggformat, you need to define
 `void format( FormatBuffer * fb, T x, const FormatOpts & opts );`.
 `FormatBuffer` is a wrapper around a `char *` and length and its exact
-definition is not important. `FormatOpts` is the parsed format options
+definition is not important. `FormatOpts` holds parsed format options
 and is defined as:
 
 ```
@@ -139,19 +144,19 @@ Since this is C++ you can and should wrap `ggformat` in a string class
 to make it more convenient to use. You can see an example in
 string_examples.cc.
 
-ggformat uses sprintf under the hood. Compile times are slightly worse
-than sprintf and quite a bit better than tinyformat. Runtime performance
-is not important, but ggformat should not be much slower than sprintf.
+ggformat uses sprintf under the hood. It compiles slightly slower than
+sprintf and quite a bit faster than tinyformat. Runtime performance is
+not important, but ggformat shouldn't be much slower than sprintf.
 
 `ggformat` does not allocate memory. `ggprint_to_file` and `ggprint`
-will allocate for strings larger than 4k. Currently they call `malloc`
-and `free` but that's very easy to change if you'd rather use your own
+will allocate for strings larger than 4k. Currently they call
+malloc/free but that's very easy to change if you'd rather use your own
 allocators.
 
 ggformat is somewhat strict about validating format strings and aborts
-when it does find an error. You should not be passing user defined
-strings as format strings, and I believe it's more helpful to fail hard
-on programmer typos. If you don't like that then it's easy enough to
+when it does find an error. You should not pass user defined strings as
+format strings, and I believe it's more helpful to fail hard on
+programmer typos. If you don't like that then it's easy enough to
 change.
 
 In general ggformat is short enough that you can easily modify it to fit
