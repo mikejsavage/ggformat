@@ -29,9 +29,9 @@ In short, `ggformat` replaces s(n)printf, `ggprint_to_file` replaces
 fprintf, and `ggprint` replaces printf.
 
 `ggformat` writes at most `len` bytes to `buf`, and that always includes
-a null terminator. Its return value is the number of bytes that would
-have been written if `buf` were large enough, _not including the null
-terminator_, and can be larger than `len` (just like sprintf).
+a null terminator. It returns the number of bytes that would have been
+written if `buf` were large enough, _not including the null terminator_,
+and can be larger than `len` (just like sprintf).
 
 `ggprint_to_file` does what you would expect, and `ggprint` writes to
 standard output. Both return `true` on success, or `false` if the write
