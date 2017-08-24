@@ -62,6 +62,7 @@ static void format_helper( FormatBuffer * fb, const ShortString & fmt, const T &
 	}
 
 #if COMPILER_MSVC
+#pragma warning( disable : 4996 ) // '_snprintf': This function or variable may be unsafe.
 	int printed = _snprintf( NULL, 0, fmt.buf, x );
 	_snprintf( dst, len, fmt.buf, x );
 #else
