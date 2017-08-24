@@ -19,7 +19,7 @@ streams under the hood and also bloats compile times.
 
 ## Usage
 
-```
+```cpp
 size_t ggformat( char * buf, size_t len, const char * fmt, ... );
 bool ggprint_to_file( FILE * file, const char * fmt, ... );
 bool ggprint( const char * fmt, ... );
@@ -45,7 +45,7 @@ to fail hard on programmer typos.
 	
 Basic usage looks like this:
 
-```
+```cpp
 #include "ggformat.h"
 
 int main() {
@@ -91,7 +91,7 @@ If you want to print your own types with ggformat, you need to define
 definition is not important. `FormatOpts` holds parsed format options
 and is defined as:
 
-```
+```cpp
 struct FormatOpts {
         enum NumberFormat { DECIMAL, HEX, BINARY };
 
@@ -106,7 +106,7 @@ struct FormatOpts {
 
 `format` implementations are typically quite simple:
 
-```
+```cpp
 #include "ggformat.h"
 
 struct v3 {
