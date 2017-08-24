@@ -61,7 +61,7 @@ static void format_helper( FormatBuffer * fb, const ShortString & fmt, const T &
 		len = 0;
 	}
 
-#if PLATFORM_WINDOWS
+#if COMPILER_MSVC
 	int printed = _snprintf( NULL, 0, fmt.buf, x );
 	_snprintf( dst, len, fmt.buf, x );
 #else
