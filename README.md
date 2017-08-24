@@ -75,7 +75,7 @@ are printed. The following options are supported:
   spaces/zeroes on the right.
 - Precision (`{.x}`): specifies the number of digits that appear after
   the decimal point when printing floats.
-- Number format (`{x}` or `{b}`): prints numbers in hexadecimal/binary.
+- Number format (`{x}` or `{b}`): prints integers in hexadecimal/binary.
 
 These can all be combined, but should be kept in the order they were
 just listed in.
