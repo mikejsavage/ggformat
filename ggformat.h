@@ -102,16 +102,16 @@ void format( FormatBuffer * fb, const char * x, const FormatOpts & opts = Format
 
 // this is optional but helps compile times
 #if GGFORMAT_COMPILER_MSVC
-#  define PRAGMA_DISABLE_OPTIMISATIONS() __pragma( optimize( "", off ) )
-#  define PRAGMA_ENABLE_OPTIMISATIONS() __pragma( optimize( "", on ) )
+#  define GGFORMAT_DISABLE_OPTIMISATIONS() __pragma( optimize( "", off ) )
+#  define GGFORMAT_ENABLE_OPTIMISATIONS() __pragma( optimize( "", on ) )
 #elif GGFORMAT_COMPILER_GCC
-#  define PRAGMA_DISABLE_OPTIMISATIONS() \
+#  define GGFORMAT_DISABLE_OPTIMISATIONS() \
         _Pragma( "GCC push_options" ) \
         _Pragma( "GCC optimize (\"O0\")" )
-#  define PRAGMA_ENABLE_OPTIMISATIONS() _Pragma( "GCC pop_options" )
+#  define GGFORMAT_ENABLE_OPTIMISATIONS() _Pragma( "GCC pop_options" )
 #elif GGFORMAT_COMPILER_CLANG
-#  define PRAGMA_DISABLE_OPTIMISATIONS() _Pragma( "clang optimize off" )
-#  define PRAGMA_ENABLE_OPTIMISATIONS() _Pragma( "clang optimize on" )
+#  define GGFORMAT_DISABLE_OPTIMISATIONS() _Pragma( "clang optimize off" )
+#  define GGFORMAT_ENABLE_OPTIMISATIONS() _Pragma( "clang optimize on" )
 #else
 #  error new compiler
 #endif
@@ -121,7 +121,7 @@ void ggformat_impl( FormatBuffer * fb, const char * fmt );
 bool ggformat_find( const char * str, size_t * start, size_t * one_past_end );
 void ggformat_literals( FormatBuffer * fb, const char * literals, size_t len );
 
-PRAGMA_DISABLE_OPTIMISATIONS();
+GGFORMAT_DISABLE_OPTIMISATIONS();
 
 template< typename T, typename... Rest >
 void ggformat_impl( FormatBuffer * fb, const char * fmt, const T & first, Rest... rest ) {
@@ -170,4 +170,4 @@ bool ggprint( const char * fmt, Rest... rest ) {
 	return ggprint_to_file( stdout, fmt, rest... );
 }
 
-PRAGMA_ENABLE_OPTIMISATIONS();
+GGFORMAT_ENABLE_OPTIMISATIONS();
