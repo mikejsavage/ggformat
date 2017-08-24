@@ -22,8 +22,8 @@
 
 #include "ggformat.h"
 
-size_t strlcat( char * dst, const char * src, size_t dsize );
-long long strtonum( const char * numstr, long long minval, long long maxval, const char ** errstrp );
+static size_t strlcat( char * dst, const char * src, size_t dsize );
+static long long strtonum( const char * numstr, long long minval, long long maxval, const char ** errstrp );
 
 template< typename To, typename From >
 inline To checked_cast( const From & from ) {
@@ -302,7 +302,7 @@ void ggformat_impl( FormatBuffer * fb, const char * fmt ) {
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-size_t
+static size_t
 strlcat(char *dst, const char *src, size_t dsize)
 {
 	const char *odst = dst;
@@ -351,7 +351,7 @@ strlcat(char *dst, const char *src, size_t dsize)
 #define TOOSMALL        2
 #define TOOLARGE        3
 
-long long
+static long long
 strtonum(const char *numstr, long long minval, long long maxval, const char **errstrp)
 {
 	long long ll = 0;
