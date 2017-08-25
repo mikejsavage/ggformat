@@ -34,7 +34,6 @@ inline To checked_cast( const From & from ) {
 
 struct ShortString {
 	char buf[ 16 ];
-	size_t length = 0;
 
 	ShortString() {
 		buf[ 0 ] = '\0';
