@@ -108,7 +108,7 @@ void format( FormatBuffer * fb, bool x, const FormatOpts & opts ) {
 }
 
 template< typename T >
-static void int_helper( FormatBuffer * fb, const char * fmt_decimal, const T & x, const FormatOpts & opts ) {
+static void int_helper( FormatBuffer * fb, const char * fmt_length, const char * fmt_decimal, const T & x, const FormatOpts & opts ) {
 	ShortString fmt;
 	fmt += "%";
 	if( opts.plus_sign ) fmt += "+";
@@ -116,9 +116,11 @@ static void int_helper( FormatBuffer * fb, const char * fmt_decimal, const T & x
 	if( opts.zero_pad ) fmt += "0";
 	if( opts.width != -1 ) fmt += opts.width;
 	if( opts.number_format == FormatOpts::DECIMAL ) {
+		fmt += fmt_length;
 		fmt += fmt_decimal;
 	}
 	else if( opts.number_format == FormatOpts::HEX ) {
+		fmt += fmt_length;
 		fmt += "x";
 	}
 	else if( opts.number_format == FormatOpts::BINARY ) {
@@ -138,19 +140,19 @@ static void int_helper( FormatBuffer * fb, const char * fmt_decimal, const T & x
 	format_helper( fb, fmt, x );
 }
 
-#define INT_OVERLOADS( T ) \
+#define INT_OVERLOADS( T, fmt_length ) \
 	void format( FormatBuffer * fb, signed T x, const FormatOpts & opts ) { \
-		int_helper( fb, "d", x, opts ); \
+		int_helper( fb, fmt_length, "d", x, opts ); \
 	} \
 	void format( FormatBuffer * fb, unsigned T x, const FormatOpts & opts ) { \
-		int_helper( fb, "u", x, opts ); \
+		int_helper( fb, fmt_length, "u", x, opts ); \
 	}
 
-INT_OVERLOADS( char )
-INT_OVERLOADS( short )
-INT_OVERLOADS( int )
-INT_OVERLOADS( long )
-INT_OVERLOADS( long long )
+INT_OVERLOADS( char, "hh" )
+INT_OVERLOADS( short, "h" )
+INT_OVERLOADS( int, "" )
+INT_OVERLOADS( long, "l" )
+INT_OVERLOADS( long long, "ll" )
 
 #undef INT_OVERLOADS
 

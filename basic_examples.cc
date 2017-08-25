@@ -48,6 +48,18 @@ int main() {
 	ggprint( "bools: {} {}\n", true, false );
 	ggprint( "strings: {-10} {} {{ }}\n", "hello", "world" );
 
+	ggprint( "mins : {} {} {} {}\n", int64_t( INT64_MIN ), int32_t( INT32_MIN ), int16_t( INT16_MIN ), int8_t( INT8_MIN ) );
+	ggprint( "maxs : {} {} {} {}\n", int64_t( INT64_MAX ), int32_t( INT32_MAX ), int16_t( INT16_MAX ), int8_t( INT8_MAX ) );
+	ggprint( "umaxs: {} {} {} {}\n", uint64_t( UINT64_MAX ), uint32_t( UINT32_MAX ), uint16_t( UINT16_MAX ), uint8_t( UINT8_MAX ) );
+
+	ggprint( "mins : {x} {x} {x} {x}\n", int64_t( INT64_MIN ), int32_t( INT32_MIN ), int16_t( INT16_MIN ), int8_t( INT8_MIN ) );
+	ggprint( "maxs : {x} {x} {x} {x}\n", int64_t( INT64_MAX ), int32_t( INT32_MAX ), int16_t( INT16_MAX ), int8_t( INT8_MAX ) );
+	ggprint( "umaxs: {x} {x} {x} {x}\n", uint64_t( UINT64_MAX ), uint32_t( UINT32_MAX ), uint16_t( UINT16_MAX ), uint8_t( UINT8_MAX ) );
+
+	ggprint( "mins : {b} {b} {b} {b}\n", int64_t( INT64_MIN ), int32_t( INT32_MIN ), int16_t( INT16_MIN ), int8_t( INT8_MIN ) );
+	ggprint( "maxs : {b} {b} {b} {b}\n", int64_t( INT64_MAX ), int32_t( INT32_MAX ), int16_t( INT16_MAX ), int8_t( INT8_MAX ) );
+	ggprint( "umaxs: {b} {b} {b} {b}\n", uint64_t( UINT64_MAX ), uint32_t( UINT32_MAX ), uint16_t( UINT16_MAX ), uint8_t( UINT8_MAX ) );
+
 	// user defined type
 	v3 a = v3( 1, 2, 3 );
 	v3 b = v3( 4, 5, 6 );
