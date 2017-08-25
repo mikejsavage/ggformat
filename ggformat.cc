@@ -277,7 +277,9 @@ void ggformat_literals( FormatBuffer * fb, const char * literals, size_t len ) {
 		copied_len++;
 	}
 	fb->len += copied_len;
-	fb->buf[ fb->len < fb->capacity - 1 ? fb->len : fb->capacity - 1 ] = '\0';
+	if( fb->capacity > 0 ) {
+		fb->buf[ fb->len < fb->capacity - 1 ? fb->len : fb->capacity - 1 ] = '\0';
+	}
 }
 
 void ggformat_impl( FormatBuffer * fb, const char * fmt ) {
