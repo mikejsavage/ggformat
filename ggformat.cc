@@ -187,8 +187,6 @@ static const char * parse_format_precision( const char * p, const char * one_pas
 }
 
 static const char * parse_format_number_format( const char * p, const char * one_past_end, FormatOpts::NumberFormat * number_format ) {
-	*number_format = FormatOpts::DECIMAL;
-
 	bool hex = false;
 	const char * after_hex = parse_format_bool( p, one_past_end, 'x', &hex );
 
@@ -207,7 +205,6 @@ static const char * parse_format_number_format( const char * p, const char * one
 
 	return p;
 }
-
 
 FormatOpts parse_formatopts( const char * fmt, size_t len ) {
 	FormatOpts opts;
