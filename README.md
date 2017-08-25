@@ -4,9 +4,9 @@ ggformat is a liberally licensed string formatting library for C++ that
 supports user defined types without blowing up your compile times. It is
 meant to be used as a replacement for printf and friends.
 
-ggformat requires C++11, and supports VS2015, GCC and clang out of the
-box. It should also work with VS2013 and VS2017 but I don't test against
-them.
+ggformat requires C++11 (variadic templates), and supports VS2015, GCC
+and clang out of the box. It should also work with VS2013 and VS2017 but
+I don't test against them.
 
 [tinyformat]: https://github.com/c42f/tinyformat
 
