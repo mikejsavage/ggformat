@@ -143,6 +143,31 @@ If you have a huge type and don't feel like writing a wall of `format`,
 see `Thing` in basic_examples.cc.
 
 
+## Dynamic allocation (std::string, asprintf, etc)
+
+`ggformat( NULL, 0, ... );` returns the number of bytes required to hold
+the formatted string. With that it's easy to integrate ggformat with
+your favourite dynamic string solution. For example, ggformat with
+std::string:
+
+```cpp
+template< typename... Rest >
+std::string ggformat_to_string( const char * fmt, Rest... rest ) {
+	size_t space_required = ggformat( nullptr, 0, fmt, rest... );
+
+	if( space_required + 1 < space_required )
+		throw std::overflow_error( "formatted string is too long" );
+
+	std::string result;
+	result.resize( space_required + 1 ); // + 1 so there's space for the null terminator...
+	ggformat( &result[ 0 ], space_required + 1, fmt, rest... );
+	result.resize( space_required ); // ...and then trim it off
+
+	return result;
+}
+```
+
+
 ## Other stuff
 
 Since this is C++ you can and should wrap `ggformat` in a string class
