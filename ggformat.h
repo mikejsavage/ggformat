@@ -24,13 +24,13 @@
  */
 
 template< typename... Rest >
-size_t ggformat( char * buf, size_t len, const char * fmt, Rest... rest );
+size_t ggformat( char * buf, size_t len, const char * fmt, const Rest & ... rest );
 
 template< typename... Rest >
-bool ggprint_to_file( FILE * file, const char * fmt, Rest... rest );
+bool ggprint_to_file( FILE * file, const char * fmt, const Rest & ... rest );
 
 template< typename... Rest >
-bool ggprint( const char * fmt, Rest... rest );
+bool ggprint( const char * fmt, const Rest & ... rest );
 
 /*
  * structures and functions used for formatting specific data types
@@ -124,7 +124,7 @@ void ggformat_literals( FormatBuffer * fb, const char * literals, size_t len );
 GGFORMAT_DISABLE_OPTIMISATIONS();
 
 template< typename T, typename... Rest >
-void ggformat_impl( FormatBuffer * fb, const char * fmt, const T & first, Rest... rest ) {
+void ggformat_impl( FormatBuffer * fb, const char * fmt, const T & first, const Rest & ... rest ) {
 	size_t start, one_past_end;
 	bool has_fmt = ggformat_find( fmt, &start, &one_past_end );
 	GGFORMAT_ASSERT( has_fmt );
@@ -138,14 +138,14 @@ void ggformat_impl( FormatBuffer * fb, const char * fmt, const T & first, Rest..
 }
 
 template< typename... Rest >
-size_t ggformat( char * buf, size_t len, const char * fmt, Rest... rest ) {
+size_t ggformat( char * buf, size_t len, const char * fmt, const Rest & ... rest ) {
 	FormatBuffer fb( buf, len );
 	ggformat_impl( &fb, fmt, rest... );
 	return fb.len;
 }
 
 template< typename... Rest >
-bool ggprint_to_file( FILE * file, const char * fmt, Rest... rest ) {
+bool ggprint_to_file( FILE * file, const char * fmt, const Rest & ... rest ) {
 	char buf[ 4096 ];
 	FormatBuffer fb( buf, sizeof( buf ) );
 	ggformat_impl( &fb, fmt, rest... );
@@ -166,7 +166,7 @@ bool ggprint_to_file( FILE * file, const char * fmt, Rest... rest ) {
 }
 
 template< typename... Rest >
-bool ggprint( const char * fmt, Rest... rest ) {
+bool ggprint( const char * fmt, const Rest & ... rest ) {
 	return ggprint_to_file( stdout, fmt, rest... );
 }
 

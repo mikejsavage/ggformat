@@ -152,7 +152,7 @@ std::string:
 
 ```cpp
 template< typename... Rest >
-std::string ggformat_to_string( const char * fmt, Rest... rest ) {
+std::string ggformat_to_string( const char * fmt, const Rest & ... rest ) {
 	size_t space_required = ggformat( nullptr, 0, fmt, rest... );
 
 	if( space_required + 1 < space_required )

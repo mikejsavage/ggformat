@@ -20,7 +20,7 @@ public:
 	}
 
 	template< typename... Rest >
-		str( const char * fmt, Rest... rest ) {
+		str( const char * fmt, const Rest & ... rest ) {
 			sprintf( fmt, rest... );
 		}
 
@@ -35,13 +35,13 @@ public:
 	}
 
 	template< typename... Rest >
-	void sprintf( const char * fmt, Rest... rest ) {
+	void sprintf( const char * fmt, const Rest & ... rest ) {
 		size_t copied = ggformat( buf, N, fmt, rest... );
 		length = min( copied, N - 1 );
 	}
 
 	template< typename... Rest >
-	void appendf( const char * fmt, Rest... rest ) {
+	void appendf( const char * fmt, const Rest & ... rest ) {
 		size_t copied = ggformat( buf + length, N - length, fmt, rest... );
 		length += min( copied, N - length - 1 );
 	}
