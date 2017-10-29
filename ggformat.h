@@ -1,4 +1,6 @@
 /*
+ * ggformat v1.0
+ *
  * Copyright (c) 2017 Michael Savage <mike@mikejsavage.co.uk>
  * 
  * Permission to use, copy, modify, and distribute this software for any
@@ -23,9 +25,20 @@
  * prototypes of the functions you should be calling
  */
 
+/*
+ * `ggformat` writes at most `len` bytes to `buf`, and that always includes a
+ * null terminator. It returns the number of bytes that would have been written
+ * if `buf` were large enough, not including the null terminator, and can be
+ * larger than `len` (just like sprintf).
+*/
 template< typename... Rest >
 size_t ggformat( char * buf, size_t len, const char * fmt, const Rest & ... rest );
 
+/*
+ * `ggprint_to_file` does what you would expect, and `ggprint` writes to
+ * standard output. Both return `true` on success, or `false` if the write
+ * fails.
+ */
 template< typename... Rest >
 bool ggprint_to_file( FILE * file, const char * fmt, const Rest & ... rest );
 

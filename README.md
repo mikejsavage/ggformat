@@ -1,8 +1,19 @@
-# ggformat
+# ggformat v1.0
 
 ggformat is a liberally licensed string formatting library for C++ that
 supports user defined types without blowing up your compile times. It is
 meant to be used as a replacement for printf and friends.
+
+ggformat saves you time by reducing the amount of tedious boilerplate
+code you have to write, without adding that time back onto the build.
+ggformat has a trivial API and does not mind being mixed with other
+formatting libraries, so it's easy to incrementally integrate with
+existing software. In particular, it's easy to integrate ggformat with
+your favourite string class, adding an extra convenience API on top of
+the functionality you already use. ggformat does not allocate memory
+unless you want it to, and it's easy to use your own allocators, making
+it appropriate for use in long-lived applications and games where memory
+fragmentation is a concern.
 
 ggformat requires C++11 (variadic templates), and supports VS2015, GCC
 and clang out of the box. It should also work with VS2013 and VS2017 but
@@ -13,8 +24,14 @@ I don't test against them.
 I wrote ggformat because the existing string formatting options for C++
 either do not support user defined types or bloat compile times too
 much. printf doesn't support user defined types. Streams bloat compile
-times and IO manipulators are unreadable. [tinyformat](tinyformat) uses
-streams under the hood and also bloats compile times.
+times and IO manipulators are unreadable.
+
+
+## Version history
+
+- __v1.0 29th Oct 2017__: variadic arguments are now passed by const
+  reference. You can now use ggformat with types that have deleted copy
+  constructors/assignment operators.
 
 
 ## Usage
