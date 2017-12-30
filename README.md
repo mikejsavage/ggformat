@@ -19,12 +19,11 @@ ggformat requires C++11 (variadic templates), and supports VS2015, GCC
 and clang out of the box. It should also work with VS2013 and VS2017 but
 I don't test against them.
 
-[tinyformat]: https://github.com/c42f/tinyformat
-
 I wrote ggformat because the existing string formatting options for C++
 either do not support user defined types or bloat compile times too
-much. printf doesn't support user defined types. Streams bloat compile
-times and IO manipulators are unreadable.
+much. printf doesn't support user defined types. Streams and std::string
+are slow to compile and IO manipulators are unreadable. Other C++
+formatting libraries include STL headers and also hurt compile times.
 
 
 ## Version history
@@ -191,9 +190,8 @@ Since this is C++ you can and should wrap `ggformat` in a string class
 to make it more convenient to use. You can see an example in
 string_examples.cc.
 
-ggformat uses sprintf under the hood. It compiles slightly slower than
-sprintf and quite a bit faster than tinyformat. Runtime performance is
-not important, but ggformat shouldn't be much slower than sprintf.
+ggformat uses sprintf under the hood. sprintf can be pretty slow at
+runtime, but compiles quickly.
 
 In general ggformat is short enough that you can easily modify it to fit
 your needs, and will be updated infrequently enough that doing so isn't
