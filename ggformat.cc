@@ -130,8 +130,7 @@ static void int_helper( FormatBuffer * fb, const char * fmt_length, const char *
 		binary[ sizeof( x ) * 8 ] = '\0';
 
 		for( size_t i = 0; i < sizeof( x ) * 8; i++ ) {
-			// this is UB for signed types, but who cares?
-			T bit = x & ( T( 1 ) << ( sizeof( x ) * 8 - i - 1 ) );
+			unsigned long long bit = x & ( ( unsigned long long ) 1 << ( sizeof( x ) * 8 - i - 1 ) );
 			binary[ i ] = bit == 0 ? '0' : '1';
 		}
 
