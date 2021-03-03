@@ -58,7 +58,7 @@ print lots of data. All functions abort if you mess up the formatting
 string or don't pass the right number of arguments. You should not pass
 user defined strings as format strings, and I believe it's more helpful
 to fail hard on programmer typos.
-	
+
 Basic usage looks like this:
 
 ```cpp
