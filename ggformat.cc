@@ -24,8 +24,8 @@
 
 #include "ggformat.h"
 
-static size_t strlcat( char * dst, const char * src, size_t dsize );
-static long long strtonum( const char * numstr, long long minval, long long maxval, const char ** errstrp );
+static size_t ggformat_strlcat( char * dst, const char * src, size_t dsize );
+static long long ggformat_strtonum( const char * numstr, long long minval, long long maxval, const char ** errstrp );
 
 template< typename To, typename From >
 inline To checked_cast( const From & from ) {
@@ -48,7 +48,7 @@ struct ShortString {
 	}
 
 	void operator+=( const char * str ) {
-		strlcat( buf, str, sizeof( buf ) );
+		ggformat_strlcat( buf, str, sizeof( buf ) );
 	}
 };
 
@@ -175,7 +175,7 @@ static const char * parse_format_int( const char * p, const char * one_past_end,
 
 	if( num_len == 0 ) return p;
 
-	*out = int( strtonum( num, 1, 1024, NULL ) );
+	*out = int( ggformat_strtonum( num, 1, 1024, NULL ) );
 	GGFORMAT_ASSERT( *out != 0 );
 
 	return p + num_len;
@@ -305,7 +305,7 @@ void ggformat_impl( FormatBuffer * fb, const char * fmt ) {
  */
 
 static size_t
-strlcat(char *dst, const char *src, size_t dsize)
+ggformat_strlcat(char *dst, const char *src, size_t dsize)
 {
 	const char *odst = dst;
 	const char *osrc = src;
@@ -354,7 +354,7 @@ strlcat(char *dst, const char *src, size_t dsize)
 #define TOOLARGE        3
 
 static long long
-strtonum(const char *numstr, long long minval, long long maxval, const char **errstrp)
+ggformat_strtonum(const char *numstr, long long minval, long long maxval, const char **errstrp)
 {
 	long long ll = 0;
 	char *ep;
