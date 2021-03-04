@@ -34,6 +34,7 @@ inline To checked_cast( const From & from ) {
 	return result;
 }
 
+namespace {
 struct ShortString {
 	char buf[ 16 ];
 
@@ -51,9 +52,10 @@ struct ShortString {
 		ggformat_strlcat( buf, str, sizeof( buf ) );
 	}
 };
+}
 
 template< typename T >
-static void format_helper( FormatBuffer * fb, const ShortString & fmt, const T & x ) {
+static void format_helper( FormatBuffer * fb, const ::ShortString & fmt, const T & x ) {
 	char * dst = fb->buf + fb->len;
 	size_t len = fb->capacity - fb->len;
 
@@ -73,7 +75,7 @@ static void format_helper( FormatBuffer * fb, const ShortString & fmt, const T &
 }
 
 void format( FormatBuffer * fb, double x, const FormatOpts & opts ) {
-	ShortString fmt;
+	::ShortString fmt;
 	fmt += "%";
 	int precision = opts.precision != -1 ? opts.precision : 5;
 	if( opts.plus_sign ) fmt += "+";
@@ -87,7 +89,7 @@ void format( FormatBuffer * fb, double x, const FormatOpts & opts ) {
 }
 
 void format( FormatBuffer * fb, char x, const FormatOpts & opts ) {
-	ShortString fmt;
+	::ShortString fmt;
 	fmt += "%";
 	if( opts.left_align ) fmt += "-";
 	if( opts.width != -1 ) fmt += opts.width;
@@ -96,7 +98,7 @@ void format( FormatBuffer * fb, char x, const FormatOpts & opts ) {
 }
 
 void format( FormatBuffer * fb, const char * x, const FormatOpts & opts ) {
-	ShortString fmt;
+	::ShortString fmt;
 	fmt += "%";
 	if( opts.left_align ) fmt += "-";
 	if( opts.width != -1 ) fmt += opts.width;
@@ -110,7 +112,7 @@ void format( FormatBuffer * fb, bool x, const FormatOpts & opts ) {
 
 template< typename T >
 static void int_helper( FormatBuffer * fb, const char * fmt_length, const char * fmt_decimal, const T & x, const FormatOpts & opts ) {
-	ShortString fmt;
+	::ShortString fmt;
 	fmt += "%";
 	if( opts.plus_sign ) fmt += "+";
 	if( opts.left_align ) fmt += "-";
