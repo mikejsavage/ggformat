@@ -1,33 +1,27 @@
-# ggformat v1.0
+# ggformat v1.1
 
 ggformat is a liberally licensed string formatting library for C++ that
-supports user defined types without blowing up your compile times. It is
-meant to be used as a replacement for printf and friends.
+supports user defined types and sub-second compile times. It's meant to
+be used as a replacement for printf and friends.
 
 ggformat saves you time by reducing the amount of tedious boilerplate
-code you have to write, without adding that time back onto the build.
-ggformat has a trivial API and does not mind being mixed with other
-formatting libraries, so it's easy to incrementally integrate with
-existing software. In particular, it's easy to integrate ggformat with
-your favourite string class, adding an extra convenience API on top of
-the functionality you already use. ggformat does not allocate memory
-unless you want it to, and it's easy to use your own allocators, making
-it appropriate for use in long-lived applications and games where memory
-fragmentation is a concern.
+code you have to write, without paying it back at compile time. ggformat
+has a trivial API and is easy to incrementally add to an existing
+codebase. ggformat integrates nicely with custom strings and allocators,
+making it appropriate for use in long-lived applications and games where
+memory fragmentation is a concern.
 
-ggformat requires C++11 (variadic templates), and supports VS2015, GCC
-and clang out of the box. It should also work with VS2013 and VS2017 but
-I don't test against them.
-
-I wrote ggformat because the existing string formatting options for C++
-either do not support user defined types or bloat compile times too
-much. printf doesn't support user defined types. Streams and std::string
-are slow to compile and IO manipulators are unreadable. Other C++
-formatting libraries include STL headers and also hurt compile times.
+ggformat supports VS2015 onwards, GCC and clang out of the box. It
+should also work with VS2013 but consider it unsupported.
 
 
 ## Version history
 
+As of March 2021, ggformat has been used in shipped code for three and a
+half years with only a single minor bugfix. I consider it complete.
+
+- __v1.1 3rd Mar 2021__: fix undefined behaviour in binary printer, and
+  some potential compilation issues.
 - __v1.0 29th Oct 2017__: variadic arguments are now passed by const
   reference. You can now use ggformat with types that have deleted copy
   constructors/assignment operators.
@@ -41,23 +35,25 @@ bool ggprint_to_file( FILE * file, const char * fmt, ... );
 bool ggprint( const char * fmt, ... );
 ```
 
-In short, `ggformat` replaces s(n)printf, `ggprint_to_file` replaces
-fprintf, and `ggprint` replaces printf.
+In short, `ggformat` replaces `snprintf`, `ggprint_to_file` replaces
+`fprintf`, and `ggprint` replaces `printf`.
 
-`ggformat` writes at most `len` bytes to `buf`, and that always includes
-a null terminator. It returns the number of bytes that would have been
-written if `buf` were large enough, _not including the null terminator_,
-and can be larger than `len` (just like sprintf).
+`ggformat` writes at most `len` bytes to `buf`, and includes a null
+terminator unless `len` is zero. It returns the number of bytes that
+would have been written if `buf` were arbitrarily large, _not including
+the null terminator_. You may use the return value to allocate a new
+buffer large enough to hold the full string, see the dynamic allocation
+section below for an example.
 
 `ggprint_to_file` does what you would expect, and `ggprint` writes to
 standard output. Both return `true` on success, or `false` if the write
-fails.
+fails. Both use `fwrite` internally and set `errno` accordingly.
 
-`ggformat` does not allocate memory, the other functions allocate if you
-print lots of data. All functions abort if you mess up the formatting
-string or don't pass the right number of arguments. You should not pass
-user defined strings as format strings, and I believe it's more helpful
-to fail hard on programmer typos.
+`ggformat` does not allocate memory. `ggprint_to_file` and `ggprint`
+allocate if you print lots of data. All functions abort if you mess up
+the formatting string or don't pass the right number of arguments. You
+should not pass user defined strings as format strings, and I believe
+it's more helpful to fail hard on programmer typos.
 
 Basic usage looks like this:
 
@@ -80,16 +76,17 @@ You can add format specifiers between the braces to change how things
 are printed. The following options are supported:
 
 - Plus sign (`{+}`): Prints a leading + for positive numeric types.
-- Width (`{x}`): left pads the output with spaces to be `x` characters
+- Width (`{#}`): left pads the output with spaces to be `#` characters
   wide. When used on floats, it left pads the output so the _left side
-  of the decimal point_ is `x` characters wide (I chose this because I
-  think it makes `{x.y}` more intuitive). If the output is already wider
-  than `x` characters, it doesn't do anything.
-- Width with zero padding (`{0x}`): as above, but pads with zeroes
+  of the decimal point_ is `x` characters wide. Note that this behaviour
+  doesn't match printf, but it does make format strings like `{#.#}`
+  behave like you would expect.. If the output is already wider than `#`
+  characters, it doesn't do anything.
+- Width with zero padding (`{0#}`): as above, but pads with zeroes
   instead of spaces.
-- Width with left alignment (`{-x}` or `{-0x}`): same again but puts the
+- Width with left alignment (`{-#}` or `{-0#}`): same again but puts the
   spaces/zeroes on the right.
-- Precision (`{.x}`): specifies the number of digits that appear after
+- Precision (`{.#}`): specifies the number of digits that appear after
   the decimal point when printing floats.
 - Number format (`{x}` or `{b}`): prints integers in hexadecimal/binary.
 
@@ -161,7 +158,8 @@ see `Thing` in basic_examples.cpp.
 
 ## Dynamic allocation (std::string, asprintf, etc)
 
-`ggformat( NULL, 0, ... );` returns the number of bytes required to hold
+`ggformat` returns the number of bytes needed to store the formatted
+string, which you can then use to allocate a buffer large enough to hold
 the formatted string. With that it's easy to integrate ggformat with
 your favourite dynamic string solution. For example, ggformat with
 std::string:
@@ -193,8 +191,6 @@ string_examples.cpp.
 ggformat uses sprintf under the hood. sprintf can be pretty slow at
 runtime, but compiles quickly.
 
-In general ggformat is short enough that you can easily modify it to fit
-your needs, and will be updated infrequently enough that doing so isn't
-a huge pain. For example, it's very easy to replace malloc/free with
-your own allocators, and if you don't like aborting on errors it's
-pretty easy to change that too.
+ggformat has a small codebase and will probably never receive another
+update. If you don't like some of my decisions you can easily create a
+local fork.
