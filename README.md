@@ -70,8 +70,8 @@ int main() {
 }
 ```
 
-and you can see more examples in basic_examples.cc and
-string_examples.cc.
+and you can see more examples in basic_examples.cpp and
+string_examples.cpp.
 
 
 ## Format options
@@ -156,7 +156,7 @@ int main() {
 ```
 
 If you have a huge type and don't feel like writing a wall of `format`,
-see `Thing` in basic_examples.cc.
+see `Thing` in basic_examples.cpp.
 
 
 ## Dynamic allocation (std::string, asprintf, etc)
@@ -188,7 +188,7 @@ std::string ggformat_to_string( const char * fmt, const Rest & ... rest ) {
 
 Since this is C++ you can and should wrap `ggformat` in a string class
 to make it more convenient to use. You can see an example in
-string_examples.cc.
+string_examples.cpp.
 
 ggformat uses sprintf under the hood. sprintf can be pretty slow at
 runtime, but compiles quickly.
