@@ -1,8 +1,8 @@
 /*
  * this file demonstrates basic ggformat usage
  *
- * compile me with "cl.exe basic_examples.cc ggformat.cc"
- * or "g++ -std=c++11 basic_examples.cc ggformat.cc"
+ * compile me with "cl.exe basic_examples.cpp ggformat.cpp"
+ * or "g++ -std=c++11 basic_examples.cpp ggformat.cpp"
  */
 
 #include <stdint.h>

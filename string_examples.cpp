@@ -1,8 +1,8 @@
 /*
  * this file demonstrates integrating ggformat with a string class
  *
- * compile me with "cl.exe string_examples.cc ggformat.cc"
- * or "g++ -std=c++11 string_examples.cc ggformat.cc"
+ * compile me with "cl.exe string_examples.cpp ggformat.cpp"
+ * or "g++ -std=c++11 string_examples.cpp ggformat.cpp"
  */
 
 #include "ggformat.h"
